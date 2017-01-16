@@ -8,8 +8,8 @@ package InventoryGUI;
 import InventoryGUI.Exceptions.NegativeQuantityException;
 
 /**
- *
- * @author Chist
+ * Object class for hanger object
+ * @author Christian Cornelis
  */
 public class Hanger extends Item {
     private String id;
@@ -75,5 +75,15 @@ public class Hanger extends Item {
             //checking if all aspects of the other are the same
             return (this.getType().equals(other.getType()) && this.getQuantity() == (other.getQuantity()) && this.getId().equals(other.getId()));
         }
+    }
+    
+    /**
+     * Data dump to be used to output data to a file
+     * @return returns a string containing LVL info formatted to be printed to a file
+     */
+    @Override
+    public String dataDump()
+    {
+        return("type = \"hsnger\"" + "\r\n" + super.dataDump() + "id = \"" + this.getId() + "\r\n");
     }
 }

@@ -7,8 +7,8 @@ package InventoryGUI;
 import java.awt.*;
 import javax.swing.*;
 /**
- *
- * @author Chist
+ * Class for all GUI components
+ * @author Christian Cornelis
  */
 public class GUI extends JFrame{
     Listeners listeners = new Listeners();
@@ -73,9 +73,11 @@ public class GUI extends JFrame{
     public GUI()
     {
         super("Inventory Tracker");
+        Listeners listener = new Listeners();
         invFrame = new JFrame("Inventory");
         invFrame.setSize(WIDTH, HEIGHT);
-        invFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        invFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        invFrame.addWindowListener(listener.new PrintToFile());
         invFrame.setLayout(new GridLayout(2,0));
         menuBar = new JMenuBar();
         menuItem = new JMenu("Menu");
@@ -122,7 +124,9 @@ public class GUI extends JFrame{
         cards.add(iBeamCard, "iBeam");
         cards.add(hangerCard, "hanger");
         cards.add(searchCard, "search");
-        displayCard("search");
+        displayCard("menu");
+        
+        HandleInventory.readFile();
     }
     
     /**

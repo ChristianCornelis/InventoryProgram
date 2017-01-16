@@ -364,5 +364,69 @@ public class Listeners {
         }
     }
     
+    /**
+     *Window listener to save list to file on exit
+     * Used by 'X' button in main GUI frame
+     */
+    protected class PrintToFile implements WindowListener{
+        /**
+         * Window opened
+         * @param e window event
+         */
+        public void windowOpened(WindowEvent e)
+        {}
+        
+        /**
+         * Window closing. This saves the arraylist of products into a file.
+         * Calls on fileDump() method from ProductHandling class.
+         * @param e window event
+         */
+        @Override
+        public void windowClosing(WindowEvent e)
+        {
+            HandleInventory.fileDump();
+            System.exit(0);
+        }
+        
+        /**
+         * Window closed
+         * @param e window event
+         */
+        @Override
+        public void windowClosed(WindowEvent e)
+        {}
+        
+        /**
+         * Window iconified
+         * @param e window event
+         */
+        @Override
+        public void windowIconified(WindowEvent e)
+        {}
+
+        /**
+         * Window deiconified
+         * @param e window event
+         */
+        @Override
+        public void windowDeiconified(WindowEvent e)
+        {}
+
+        /**
+         * Window activated
+         * @param e window event
+         */
+        @Override
+        public void windowActivated(WindowEvent e)
+        {}
+        
+        /**
+         * Window deactivated
+         * @param e window event
+         */
+        @Override
+        public void windowDeactivated(WindowEvent e)
+        {}
+    }
 }
 

@@ -98,4 +98,14 @@ public class LVL extends Item{
             return (this.getType().equals(other.getType()) && this.getQuantity() == (other.getQuantity()) && this.getWidth().equals(other.getWidth()) && this.getLength().equals(other.getLength()));
         }
     }
+    
+    /**
+     * Data dump to be used to output data to a file
+     * @return returns a string containing LVL info formatted to be printed to a file
+     */
+    @Override
+    public String dataDump()
+    {
+        return("type = \"lvl\"" + "\r\n" + super.dataDump() + "length = \"" + this.getLength() + "\"" + "\r\n" + "width = \"" + this.getWidth() + "\"" + "\r\n");
+    }
 }

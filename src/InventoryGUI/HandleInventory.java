@@ -8,10 +8,12 @@ package InventoryGUI;
 import InventoryGUI.Exceptions.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.*;
+import java.util.Scanner;
 
 /**
- *
- * @author Chist
+ * Class which handles most inventory functions, such as adding and searching, as well as File I/O
+ * @author Christian Cornelis
  */
 public class HandleInventory {
     private static ArrayList <Item> inventory = new ArrayList <Item> ();
@@ -32,6 +34,7 @@ public class HandleInventory {
         
         try
         {
+            //checking all inputs
             if (q.equals(""))
                 throw newException.new BlankInputException("Error: Quantity cannot be left blank.");
             else if (length.equals(""))
@@ -48,9 +51,9 @@ public class HandleInventory {
             else if (width.charAt(0) == '-')
                 throw newException.new NegativeDataException("Error: Width cannot be less than zero.");
             
-            if(!length.matches("[0-9/ ]+"))
+            if(!length.matches("[0-9/ \"']+"))
                 throw newException.new ImproperDimensionFormatException("Error: Please check length formatting.");
-            else if (!width.matches("[0-9/ ]+"))
+            else if (!width.matches("[0-9/ \"']+"))
                 throw newException.new ImproperDimensionFormatException("Error: Please check width formatting.");
             
             int existsIndex = checkExists(type, " ", length, width, " ");
@@ -127,11 +130,11 @@ public class HandleInventory {
             else if (width.charAt(0) == '-')
                 throw newException.new NegativeDataException("Error: Width cannot be less than zero.");
             
-            if(!length.matches("[0-9/ ]+"))
+            if(!length.matches("[0-9/ \"']+"))
                 throw newException.new ImproperDimensionFormatException("Error: Please check length formatting.");
-            else if (!width.matches("[0-9/ ]+"))
+            else if (!width.matches("[0-9/ \"']+"))
                 throw newException.new ImproperDimensionFormatException("Error: Please check width formatting.");
-            else if (!depth.matches("[0-9/ ]+"))
+            else if (!depth.matches("[0-9/x \"']+"))
                 throw newException.new ImproperDimensionFormatException("Error: Please check depth formatting");
             
             int existsIndex = checkExists("iBeam", " ", length, width, depth);
@@ -147,6 +150,7 @@ public class HandleInventory {
                     inventory.add(new IBeam("iBeam" , quantity, length, width, depth));
                     addToHashMap("iBeam");
                     GUI.printIBeamMessage("I-Beam item succesfully added to inventory.");
+                    
                     GUI.resetIBeamFields();
                     
                 }
@@ -226,6 +230,14 @@ public class HandleInventory {
         }
     }
     
+    /**
+     * Checks if search inputs are correctly-formatted
+     * @param type represents the type of item to search for
+     * @param id represents the id of the item being searched
+     * @param length represents the length of the item being searched
+     * @param width represents the length of the item being searched
+     * @param depth represents the depth of the item being searched
+     */
     protected static void checkSearchInputs(String type, String id, String length, String width, String depth)
     {
         Exceptions newException = new Exceptions();
@@ -239,9 +251,9 @@ public class HandleInventory {
                         throw newException.new NegativeDataException("Error: Length cannot be less than zero");
                     else if (!width.equals("") && width.charAt(0) == '-')
                         throw newException.new NegativeDataException("Error: Width cannot be less than zero.");
-                    else if(!length.equals("") && !length.matches("[0-9/ ]+"))
+                    else if(!length.equals("") && !length.matches("[0-9/ \"']+"))
                         throw newException.new ImproperDimensionFormatException("Error: Please check length formatting.");
-                    else if (!width.equals("") && !width.matches("[0-9/ ]+"))
+                    else if (!width.equals("") && !width.matches("[0-9/ '\"]+"))
                         throw newException.new ImproperDimensionFormatException("Error: Please check width formatting.");
                     
                     if (!hashMap.isEmpty() && hashMap.containsKey("lvl"))
@@ -255,9 +267,9 @@ public class HandleInventory {
                         throw newException.new NegativeDataException("Error: Length cannot be less than zero");
                     else if (!width.equals("") && width.charAt(0) == '-')
                         throw newException.new NegativeDataException("Error: Width cannot be less than zero.");
-                    else if(!length.equals("") && !length.matches("[0-9/ ]+"))
+                    else if(!length.equals("") && !length.matches("[0-9/ \"']+"))
                         throw newException.new ImproperDimensionFormatException("Error: Please check length formatting.");
-                    else if (!width.equals("") && !width.matches("[0-9/ ]+"))
+                    else if (!width.equals("") && !width.matches("[0-9/ \"']+"))
                         throw newException.new ImproperDimensionFormatException("Error: Please check width formatting.");
                     
                     if (!hashMap.isEmpty() && hashMap.containsKey("rimboard"))
@@ -273,11 +285,11 @@ public class HandleInventory {
                         throw newException.new NegativeDataException("Error: Width cannot be less than zero.");
                     else if (!depth.equals("") && depth.charAt(0) == '-')
                         throw newException.new NegativeDataException("Error: Depth cannot be less than zero.");
-                    else if(!length.equals("") && !length.matches("[0-9/ ]+"))
+                    else if(!length.equals("") && !length.matches("[0-9/ \"']+"))
                         throw newException.new ImproperDimensionFormatException("Error: Please check length formatting.");
-                    else if (!width.equals("") && !width.matches("[0-9/ ]+"))
+                    else if (!width.equals("") && !width.matches("[0-9/ \"']+"))
                         throw newException.new ImproperDimensionFormatException("Error: Please check width formatting.");
-                    else if (!depth.equals("") && !depth.matches("[0-9/ ]+"))
+                    else if (!depth.equals("") && !depth.matches("[0-9/ \"']+"))
                         throw newException.new ImproperDimensionFormatException("Error: Please check depth formatting");
                     if (!hashMap.isEmpty() && hashMap.containsKey("ibeam"))
                         searchHashMap("iBeam", "", length, width, depth);
@@ -481,7 +493,7 @@ public class HandleInventory {
     protected static void searchHashMap (String type, String id, String length, String width, String depth)
     {
         //ArrayList <> vals;
-        ArrayList <Integer> vals = new ArrayList<>(hashMap.get(type));
+        ArrayList <Integer> vals = new ArrayList<>(hashMap.get(type.toLowerCase()));
         ArrayList <Integer> found = new ArrayList<> ();
         boolean printVals = false;
         
@@ -646,6 +658,135 @@ public class HandleInventory {
         for (int i = 0; i < toPrint.size(); i++)
         {
             GUI.printSearchMessage(inventory.get(toPrint.get(i)).toString() + "\n");
+        }
+    }
+    
+    /**
+     * Method to read the input file. Called upon at the beginning of the file to read from the input file.
+     */
+    protected static void readFile(){
+        File file = new File("inventory_data.txt");
+        
+        //try-catch for if file is found or not
+        try
+        {
+            //scanning in contents of the input file
+            Scanner fileScanner = new Scanner(file);
+            //String tokens[];
+            String fileLine = "", type = "", quantity = "", id = "", length = "", width = "", depth = "";
+            
+            //while line in file is not empty
+            while (fileScanner.hasNextLine())
+            {
+                String tokens[];
+                fileLine = fileScanner.nextLine();
+                
+                //if the line doesn't contain a " then go to the next line
+                if (!fileLine.contains("\""))
+                    continue;
+                
+                //tokenizing line by "'s
+                tokens = fileLine.split("\"");
+                
+                type = tokens[1];
+                System.out.println(tokens[1] + "\n");
+                
+                fileLine = fileScanner.nextLine();
+                tokens = fileLine.split("\"");
+                quantity = tokens[1];
+                System.out.println(tokens[1] + "\n");
+               
+                if (type.equals("lvl") || type.equals("rimboard") || type.equals("iBeam"))
+                {
+                    //reading length
+                    fileLine = fileScanner.nextLine();
+                    tokens = fileLine.split("\"");
+                    length = tokens[1];
+                    System.out.println(tokens[1] + "\n");
+                    
+                    //reading width
+                    fileLine = fileScanner.nextLine();
+                    tokens = fileLine.split("\"");
+                    width = tokens[1];
+                    System.out.println(tokens[1] + "\n");
+                }
+
+                if (type.equals("iBeam"))
+                {
+                    //reading width
+                    fileLine = fileScanner.nextLine();
+                    tokens = fileLine.split("\"");
+                    depth = tokens[1];
+                    System.out.println(tokens[1] + "\n");
+                }
+
+                else if (type.equals("hanger"))
+                {
+                    //reading length
+                    fileLine = fileScanner.nextLine();
+                    tokens = fileLine.split("\"");
+                    id = tokens[1];
+                    System.out.println(tokens[1] + "\n");
+                }
+
+                
+                switch(type)
+                {
+                    case "lvl":
+                        checkLVLRimInputs("LVL", '+', quantity, length, width);
+                        break;
+                        
+                    case "rimboard":
+                        checkLVLRimInputs("Rimboard", '+', quantity, length, width);
+                        break;
+                        
+                    case "hanger":
+                        checkHangerInputs('+', quantity, id);
+                        break;
+                        
+                    case "iBeam":
+                        checkIBeamInputs('+', quantity, length, width, depth);
+                        break;  
+                }    
+            }
+        }
+        catch (FileNotFoundException f)  //catching if file does not exist
+        {
+            System.exit(0);
+        }
+    }
+    
+     /**
+     * Method to print out the products in the arraylist to the output file. 
+     * Prints messages to the terminal dicussing whether file output was successful or not
+     */
+    protected static void fileDump(){
+        
+        File file = new File("inventory_data.txt");
+
+        //if list is empty
+        if (!inventory.isEmpty())
+        {
+            System.out.println("No cars in list to be printed." + "\n");
+            //try-catch for if file is found or not
+            try
+            {
+                //declaring printwriter
+                PrintWriter printer = new PrintWriter(file);
+
+                //for loop to print all items to file
+                for (int i = 0; i < inventory.size(); i++)
+                {
+                    printer.println(inventory.get(i).dataDump());
+                }
+
+                printer.close();  //closing printwriter
+            }
+
+            catch (FileNotFoundException n)  //if file not found
+            {
+                System.exit(1);
+            }
         }
     }
 }

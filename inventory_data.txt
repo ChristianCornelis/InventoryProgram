@@ -1,0 +1,17 @@
+type = "lvl"
+quantity = "100"
+length = "18'"
+width = "9 3/4"
+
+type = "iBeam"
+quantity = "1"
+length = "28'"
+width = "11 7/8"
+depth = "2x3"
+
+type = "iBeam"
+quantity = "1"
+length = "1"
+width = "1"
+depth = "1"
+

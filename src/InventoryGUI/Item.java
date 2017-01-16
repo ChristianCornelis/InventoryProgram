@@ -5,7 +5,7 @@ import InventoryGUI.Exceptions.*;
 
 /**
  * Object class for item object
- * @author Chist
+ * @author Christian Cornelis
  */
 public class Item {
     private int quantity;
@@ -97,5 +97,14 @@ public class Item {
             //checking if all aspects of the other are the same
             return (this.getQuantity() == (other.getQuantity()) && this.getType().equals(other.getType()));
         }
+    }
+    
+    /**
+     * Data dump to be used to output data to a file
+     * @return returns a string containing item info formatted to be printed to a file
+     */
+    public String dataDump()
+    {
+        return("quantity = \"" + this.getQuantity() + "\"\n");
     }
 }

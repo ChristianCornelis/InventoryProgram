@@ -8,8 +8,8 @@ package InventoryGUI;
 import InventoryGUI.Exceptions.NegativeQuantityException;
 
 /**
- *
- * @author Chist
+ * Class for iBeam object
+ * @author Christian Cornelis
  */
 public class IBeam extends Item{
     private String width;
@@ -119,5 +119,15 @@ public class IBeam extends Item{
             //checking if all aspects of the other are the same
             return (this.getType().equals(other.getType()) && this.getQuantity() == (other.getQuantity()) && this.getWidth().equals(other.getWidth()) && this.getLength().equals(other.getLength()) && this.getDepth().equals(other.getDepth()));
         }
+    }
+    
+    /**
+     * Data dump to be used to output data to a file
+     * @return returns a string containing IBeam info formatted to be printed to a file
+     */
+    @Override
+    public String dataDump()
+    {
+        return("type = \"iBeam\"" + "\r\n" + super.dataDump() + "length = \"" + this.getLength() + "\"" + "\r\n" + "width = \"" + this.getWidth() + "\"" + "\r\n" + "depth = \"" + this.getDepth() + "\"" + "\r\n");
     }
 }
