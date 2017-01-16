@@ -30,14 +30,5 @@ SEARCHING INVENTORY:
 - Users can enter specific dimensions/IDs to search for, or can leave all input fields blank.
     - If all input fields are left blank, then all items of the specified type will be outputted in the Messages pane.
 - If users enter any incorrectly-formatted information into an input field, an error message will occur.
-    
-
-*******
-ISSUES:
-*******
-- UI is not sized to my liking. 
-    - Using .pack on the main JFrame causes all message panes to be sized correctly, but elongates the UI as a whole. 
-    - Not using .pack causes message fields to be too small, but the UI is the correct size.
-    - Therefore, decided to keep the UI slightly elongated in order to provide best user experience until the problem is resolved.
       
   
