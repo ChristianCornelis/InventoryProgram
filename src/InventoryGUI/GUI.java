@@ -12,6 +12,7 @@ import javax.swing.*;
  */
 public class GUI extends JFrame{
     Listeners listeners = new Listeners();
+    
     //main frame variables
     private static final int WIDTH = 400;
     private static final int HEIGHT = 400;
@@ -19,7 +20,7 @@ public class GUI extends JFrame{
     
     //menu variables
     private static JMenuBar menuBar;
-    private static JMenu menuItem, helpItem;
+    private static JMenu menuItem;
     private static JMenuItem addItem, searchItem, welcomeItem;
     
     //card layout cards
@@ -72,6 +73,7 @@ public class GUI extends JFrame{
      */
     public GUI()
     {
+        //generic JFrame component code
         super("Inventory Tracker");
         Listeners listener = new Listeners();
         invFrame = new JFrame("Inventory");
@@ -79,28 +81,31 @@ public class GUI extends JFrame{
         invFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         invFrame.addWindowListener(listener.new PrintToFile());
         invFrame.setLayout(new GridLayout(2,0));
+        
+        //menu components
         menuBar = new JMenuBar();
         menuItem = new JMenu("Menu");
         addItem = new JMenuItem("Update Inventory");
         searchItem = new JMenuItem("Search Inventory");
         welcomeItem = new JMenuItem("Display Welcome Screen");
-        helpItem = new JMenu("Help");
         
+        //adding listeners to menu items
         addItem.addActionListener(listeners.new DisplayLVL());
         searchItem.addActionListener(listeners.new DisplaySearch());
         welcomeItem.addActionListener(listeners.new DisplayMenu());
-  
+        
+        //completing all menu components
         menuItem.add(addItem);
         menuItem.add(searchItem);
         menuItem.add(welcomeItem);
         menuBar.add(menuItem);
-        menuBar.add(helpItem);
         invFrame.setJMenuBar(menuBar);
         invFrame.revalidate();
         
+        //initializing card layout and adding all cards to JFrame
         initCardLayout();
         invFrame.add(cards);
-        invFrame.pack();
+        invFrame.pack();  //used to make message panes correct size
         invFrame.setVisible(true);
         
     }
@@ -113,6 +118,7 @@ public class GUI extends JFrame{
         cards = new JPanel();
         cards.setLayout(new CardLayout());
         
+        //initializing all cards
         initMenu();
         initLVL();
         initIBeam();
@@ -126,6 +132,7 @@ public class GUI extends JFrame{
         cards.add(searchCard, "search");
         displayCard("menu");
         
+        //reading file
         HandleInventory.readFile();
     }
     
@@ -137,6 +144,7 @@ public class GUI extends JFrame{
         menu = new JPanel();
         menu.setLayout(new GridLayout(4, 0));
         
+        //text labels
         txtLbl1 = new JLabel("Welcome to the Inventory program!");
         txtLbl2 = new JLabel("To add an item, click on the \"Update Inventory\" menu item above.");
         txtLbl3 = new JLabel("To search inventory, click on the \"Search Inventory\" button above.");
@@ -153,11 +161,9 @@ public class GUI extends JFrame{
     {
         lvlCard = new JPanel();
         lvlCard.setLayout(new BoxLayout(lvlCard, BoxLayout.Y_AXIS));
-        //lvlCard.setLayout(new GridBagLayout());
-        //GridBagConstraints gbc = new GridBagConstraints();
         
+        //panel initializations
         updateLVLPanel = new JPanel();
-        //updateLVLPanel.setLayout(new GridLayout(6, 1));
         updateLVLPanel.setLayout(new BoxLayout(updateLVLPanel, BoxLayout.Y_AXIS));
         lvlPanel = new JPanel();
         lvlPanel.setLayout(new BoxLayout(lvlPanel, BoxLayout.Y_AXIS));
@@ -235,25 +241,7 @@ public class GUI extends JFrame{
         updateLVLPanel.add(lvlWidthPanel);
         lvlPanel.add(updateLVLPanel);
         
-        /*
-        //lvlCard.setSize(new Dimension(100,600));
-        gbc.weightx = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        lvlCard.add(lvlPanel, gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        lvlCard.add(lvlBtnPanel, gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        lvlCard.add(Box.createRigidArea(new Dimension(0, 32)), gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        lvlCard.add(lvlMsgPanel, gbc);
-        gbc.weighty = .01;
-        */
-        
+        //adding all panels to the lvl card
         lvlCard.add(lvlPanel);
         lvlCard.add(lvlBtnPanel);
         lvlCard.add(lvlMsgPanel);
@@ -261,9 +249,11 @@ public class GUI extends JFrame{
     
     private void initIBeam()
     {
+        //card initializations
         iBeamCard = new JPanel();
         iBeamCard.setLayout(new BoxLayout(iBeamCard, BoxLayout.Y_AXIS));
         
+        //panel initializations
         updateIBeamPanel = new JPanel();
         updateIBeamPanel.setLayout(new BoxLayout(updateIBeamPanel, BoxLayout.Y_AXIS));
         iBeamPanel = new JPanel();
@@ -284,7 +274,6 @@ public class GUI extends JFrame{
         iBeamUpdatePanel.setLayout(new GridLayout(1, 2));
         iBeamUpdateLbl = new JLabel("Action:    ");
         iBeamUpdateBox = new JComboBox(actionList);
-        iBeamUpdateBox.addActionListener(listeners.new IBeamActionType());
         iBeamUpdateBox.setSelectedIndex(0);
         iBeamUpdatePanel.add(iBeamUpdateLbl);
         iBeamUpdatePanel.add(iBeamUpdateBox);
@@ -361,9 +350,11 @@ public class GUI extends JFrame{
     
      private void initHanger()
     {
+        //card initializations
         hangerCard = new JPanel();
         hangerCard.setLayout(new BoxLayout(hangerCard, BoxLayout.Y_AXIS));
         
+        //panel intializations
         updateHangerPanel = new JPanel();
         updateHangerPanel.setLayout(new BoxLayout(updateHangerPanel, BoxLayout.Y_AXIS));
         hangerPanel = new JPanel();
@@ -384,7 +375,6 @@ public class GUI extends JFrame{
         hangerUpdatePanel.setLayout(new GridLayout(1, 2));
         hangerUpdateLbl = new JLabel("Action:    ");
         hangerUpdateBox = new JComboBox(actionList);
-        hangerUpdateBox.addActionListener(listeners.new HangerActionType());
         hangerUpdateBox.setSelectedIndex(0);
         hangerUpdatePanel.add(hangerUpdateLbl);
         hangerUpdatePanel.add(hangerUpdateBox);
@@ -442,9 +432,11 @@ public class GUI extends JFrame{
     
     private void initSearch()
     {
+        //card initializations
         searchCard = new JPanel();
         searchCard.setLayout(new BoxLayout(searchCard, BoxLayout.Y_AXIS));
         
+        //panel initializations
         updateSearchPanel = new JPanel();
         updateSearchPanel.setLayout(new BoxLayout(updateSearchPanel, BoxLayout.Y_AXIS));
         searchPanel = new JPanel();
@@ -585,6 +577,7 @@ public class GUI extends JFrame{
     protected static void sendLVLFields()
     {
         char operation = ' ';
+        //switch statement based on what action is selected to do with the quantity
         switch(lvlUpdateBox.getSelectedIndex())
         {
             case 0:
@@ -603,8 +596,8 @@ public class GUI extends JFrame{
                 operation = 'x';
                 break;
         }
+        //checking all inputs
         HandleInventory.checkLVLRimInputs((String) lvlTypeBox.getSelectedItem(), operation, lvlQuantityInput.getText(), lvlLengthInput.getText(), lvlWidthInput.getText());
-        System.out.println((String) lvlTypeBox.getSelectedItem());
     }
     
     /**
@@ -613,6 +606,7 @@ public class GUI extends JFrame{
     protected static void sendIBeamFields()
     {
         char operation = ' ';
+        //switch statement based on what action is selected for quantity
         switch(iBeamUpdateBox.getSelectedIndex())
         {
             case 0:
@@ -631,6 +625,7 @@ public class GUI extends JFrame{
                 operation = 'x';
                 break;
         }
+        //checking values
         HandleInventory.checkIBeamInputs(operation, iBeamQuantityInput.getText(), iBeamLengthInput.getText(), iBeamWidthInput.getText(), iBeamDepthInput.getText());
     }
     
@@ -640,6 +635,7 @@ public class GUI extends JFrame{
     protected static void sendHangerFields()
     {
         char operation = ' ';
+        //switch statement based on what action is selected for quantity
         switch(hangerUpdateBox.getSelectedIndex())
         {
             case 0:
@@ -658,6 +654,7 @@ public class GUI extends JFrame{
                 operation = 'x';
                 break;
         }
+        //checking inputs
         HandleInventory.checkHangerInputs(operation, hangerQuantityInput.getText(), hangerIdInput.getText());
     }
     
@@ -666,6 +663,7 @@ public class GUI extends JFrame{
      */
     protected static void sendSearchFields()
     {
+        //switch statement to check inputs based on what type of item is selected
         switch((String) searchTypeBox.getSelectedItem())
         {
             case "LVL":
@@ -686,21 +684,37 @@ public class GUI extends JFrame{
         }
     }
     
+    /**
+     * Method to print a message on the lvl card
+     * @param toDisplay represents the String to be printed
+     */
     protected static void printLVLMessage(String toDisplay)
     {
         lvlMsgDisplay.append(toDisplay + "\n");
     }
     
+    /**
+     * Method to print a message on the iBeam card
+     * @param toDisplay represents the String to be printed
+     */
     protected static void printIBeamMessage(String toDisplay)
     {
         iBeamMsgDisplay.append(toDisplay + "\n");
     }
     
+    /**
+     * Method to print a message on the hanger card
+     * @param toDisplay represents the String to be printed
+     */
     protected static void printHangerMessage(String toDisplay)
     {
         hangerMsgDisplay.append(toDisplay + "\n");
     }
     
+    /**
+     * Method to print a message on the search card
+     * @param toDisplay represents the String to be printed
+     */
     protected static void printSearchMessage(String toDisplay)
     {
         searchMsgDisplay.append(toDisplay + "\n");
@@ -766,11 +780,15 @@ public class GUI extends JFrame{
         hangerTypeBox.setSelectedIndex(key);
     }
     
-    
+    /**
+     * Method to set specific search inputs to enabled based on what type of item is being searched for
+     * @param type represents the type of the item
+     */
     protected static void setSearchInputs(String type)
     {
         switch (type)
         {
+            //setting length and width to enabled for lvl
             case "LVL":
                 searchLengthInput.setEnabled(true);
                 searchWidthInput.setEnabled(true);
@@ -778,20 +796,23 @@ public class GUI extends JFrame{
                 searchIdInput.setEnabled(false);
                 break;
                 
+            //setting length and width to enabled for rimboard
             case "Rimboard":
                 searchLengthInput.setEnabled(true);
                 searchWidthInput.setEnabled(true);
                 searchDepthInput.setEnabled(false);
                 searchIdInput.setEnabled(false);
                 break;
-                
+            
+            //setting id to enabled for hanger
             case "Hanger":
                 searchLengthInput.setEnabled(false);
                 searchWidthInput.setEnabled(false);
                 searchDepthInput.setEnabled(false);
                 searchIdInput.setEnabled(true);
                 break;
-                
+            
+            //settomg length, width, and depth to enabled for iBeam
             case "I-Beam":
                 searchLengthInput.setEnabled(true);
                 searchWidthInput.setEnabled(true);

@@ -8,8 +8,8 @@ package InventoryGUI;
 import java.awt.event.*;
 
 /**
- *
- * @author Chist
+ * Class containing all listeners for GUI components
+ * @author Christian Cornelis
  */
 public class Listeners {
     /**
@@ -55,7 +55,7 @@ public class Listeners {
         @Override
         public void actionPerformed(ActionEvent ae)
         {
-            //switching cards and setting combobox selected item
+            //switching cards
             GUI.displayCard("search");
             GUI.resetSearchFields();
         }
@@ -76,6 +76,7 @@ public class Listeners {
             //getting selected combobox item
             String type = GUI.getLVLBoxType();
             
+            //switch statement to switch card being displated based on selected type
             switch (type)
             {
                 case "I-Beam":
@@ -106,6 +107,7 @@ public class Listeners {
             //getting selected combobox item
             String type = GUI.getIBeamBoxType();
             
+            //switch statement to type displayed in combobox
             switch (type)
             {
                 case "LVL":
@@ -141,6 +143,7 @@ public class Listeners {
             //getting selected combobox item
             String type = GUI.getHangerBoxType();
             
+            //switching cards based on selected combobox item
             switch (type)
             {
                 case "LVL":
@@ -179,70 +182,7 @@ public class Listeners {
             GUI.setSearchInputs(type);
         }
     }
-    
-    /**
-     * Action listener to switch card being displayed from the ibeam adding one to the a different one
-     * Used by combobox on adding ibeam card
-     */
-    protected class IBeamActionType implements ActionListener{
-        /**
-         * Method to check which card is on display and change accordingly
-         * @param ae represents the action event (combobox item selected)
-         */
-        @Override
-        public void actionPerformed(ActionEvent ae)
-        {
-            //getting selected combobox item
-            String type = GUI.getIBeamBoxType();
-            
-            switch (type)
-            {
-                case "LVL":
-                    GUI.displayCard("lvl");
-                    GUI.setLVLBoxType(0);
-                    break;
-                    
-                /*case "Electronic":
-                    GUI.showCard("electronic");
-                    GUI.setElectronicBoxType(1);
-                    break;*/
-            }
-        }
-    }
-    
-        /**
-     * Action listener to switch card being displayed from the ibeam adding one to the a different one
-     * Used by combobox on adding ibeam card
-     */
-    protected class HangerActionType implements ActionListener{
-        /**
-         * Method to check which card is on display and change accordingly
-         * @param ae represents the action event (combobox item selected)
-         */
-        @Override
-        public void actionPerformed(ActionEvent ae)
-        {
-            //getting selected combobox item
-            String type = GUI.getIBeamBoxType();
-            
-            switch (type)
-            {
-                case "LVL":
-                    GUI.displayCard("lvl");
-                    GUI.setLVLBoxType(0);
-                    break;
-                    
-                case "Hanger":
-                    GUI.displayCard("lvl");
-                    GUI.setLVLBoxType(2);
-                    break;
-                    
-                case "I-Beam":
-                    GUI.displayCard("IBeam");
-                    GUI.setIBeamBoxType(1);
-            }
-        }
-    }
+
     
     /**
      * Action listener to send all lvl input fields

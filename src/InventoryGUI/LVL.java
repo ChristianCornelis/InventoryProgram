@@ -9,7 +9,7 @@ import InventoryGUI.Exceptions.NegativeQuantityException;
 
 /**
  *
- * @author Chist
+ * @author Christian Cornelis
  */
 public class LVL extends Item{
     private String length;
